@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pumpkin Carving Contest 🎃</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
+</head>
+<body>
+    <h1>🎃 2025 City of Savage Pumpkin Carving Contest 🎃</h1>
+    <div class="page-views">
+        <span class="label">Page Views:</span>
+        <span id="view-count">Loading...</span>
+    </div>
+    <div class="image-container">
+        <img src="images/trick-or-treat-halloween.gif" alt="Hallowen Dog" />
+    </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const counter = new Counter({ workspace: 'cos' });
+
+    // Increment the view count when the page loads
+    counter.up('2025-cos-pumpkin-carving-contest')
+      .then(result => {
+        console.log(result);
+        document.getElementById('view-count').textContent = result.data.up_count;
+      })
+      .catch(error => {
+        console.error('Error tracking page view:', error);
+        document.getElementById('view-count').textContent = 'Error loading count';
+      });
+  });
+</script>
+</body>
+</html>
