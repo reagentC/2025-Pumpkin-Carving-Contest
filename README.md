@@ -47,6 +47,7 @@ CounterAPI (included via CDN)
 │   └── trick-or-treat-halloween.gif  # Dog gif
 
 └── README.md
+
 ---
 
 ## 🎨 Styling
@@ -60,6 +61,8 @@ Responsive typography
 Hover animations for counters and images
 
 Pumpkin-themed color accents
+
+
 ---
 
 ## 📌 Notes
@@ -67,6 +70,7 @@ Pumpkin-themed color accents
 Update the workspace and counter slug in index.html to match your CounterAPI settings.
 
 Replace the image in images/pumpkin.png with your own pumpkin carving contest photo.
+
 ---
 
 ## 📜 License
