@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+        <style>
+            body {
+                text-align: center;
+                padding-top: 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Test Page for Confetti</h1>
+        <button id="spiderBtn">Spiders!</button>
+        <button id="snakeBtn">Snakes!</button>
+        <script>
+            var scalar = 2; // Adjust size of emoji
+            var spiderIco = confetti.shapeFromText({ text: '🕷️', scalar})
+            var snakeIco = confetti.shapeFromText({ text: '🐍', scalar})
+            var defaults = {
+                spread: 160,
+                ticks: 60,
+                gravity: 0.5,
+                decay: 0.9,
+                startVelocity: 20,
+                scalar
+            };
+            const spiderBox = document.getElementById('spiderBtn');
+            const snakeBox = document.getElementById('snakeBtn');
+            const snakeRect = snakeBtn.getBoundingClientRect();
+            const spiderRect = spiderBtn.getBoundingClientRect();    
+            const spiderX = (spiderRect.left + spiderRect.right) / 2;
+            const spiderY = (spiderRect.top + spiderRect.bottom) / 2;
+            const snakeX = (snakeRect.left + snakeRect.right) / 2;
+            const snakeY = (snakeRect.top + snakeRect.bottom) / 2;
+            document.getElementById('spiderBtn').addEventListener('click', function() {
+                confetti({
+                    ...defaults,
+                    shapes: [spiderIco],
+                    origin: {x: spiderX / window.innerWidth, y: spiderY / window.innerHeight}
+                });
+            });
+            document.getElementById('snakeBtn').addEventListener('click', function() {
+                confetti({
+                    ...defaults,
+                    shapes: [snakeIco],
+                    origin: {x: snakeX / window.innerWidth, y: snakeY / window.innerHeight}
+                });
+            });
+        </script>
+    </body>
+</html>

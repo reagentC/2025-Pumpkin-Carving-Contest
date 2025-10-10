@@ -6,6 +6,7 @@
     <title>Pumpkin Carving Contest 🎃</title>
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 <body>
     <h1>🎃 2025 City of Savage Pumpkin Carving Contest 🎃</h1>
@@ -28,11 +29,33 @@
   document.addEventListener('DOMContentLoaded', function() {
     const counter = new Counter({ workspace: 'cos' });
 
+    // Button variables
     const spiderBtn = document.getElementById('spiderBtn');
     const snakeBtn = document.getElementById('snakeBtn');
     const voteResultsEl = document.getElementById('vote-results');
     const viewCountEl = document.getElementById('view-count');
 
+    // Confetti variables
+    var scalar = 2; // Adjust size of emoji
+    var spiderIco = confetti.shapeFromText({ text: '🕷️', scalar })
+    var snakeIco = confetti.shapeFromText({ text: '🐍', scalar })
+    var defaults = {
+        spread: 160,
+        ticks: 60,
+        gravity: 0.5,
+        decay: 0.9,
+        startVelocity: 20,
+        scalar
+    };
+    const spiderBox = document.getElementById('spiderBtn');
+    const snakeBox = document.getElementById('snakeBtn');
+    const snakeRect = snakeBtn.getBoundingClientRect();
+    const spiderRect = spiderBtn.getBoundingClientRect();    
+    const spiderX = (spiderRect.left + spiderRect.right) / 2;
+    const spiderY = (spiderRect.top + spiderRect.bottom) / 2;
+    const snakeX = (snakeRect.left + snakeRect.right) / 2;
+    const snakeY = (snakeRect.top + snakeRect.bottom) / 2;
+ 
     let upCount = 0;
     let downCount = 0;
 
@@ -70,6 +93,11 @@
     spiderBtn.addEventListener('click', async () => {
       upCount++;
       renderVotes(); // immediate feedback
+      confetti({
+        ...defaults,
+        shapes: [spiderIco],
+        origin: {x: spiderX / window.innerWidth, y: spiderY / window.innerHeight}
+      })
 
       try {
         await counter.up('this-or-that');
@@ -85,6 +113,11 @@
     snakeBtn.addEventListener('click', async () => {
       downCount++;
       renderVotes(); // immediate feedback
+      confetti({
+        ...defaults,
+        shapes: [snakeIco],
+        origin: {x: snakeX / window.innerWidth, y: snakeY / window.innerHeight}
+      })
 
       try {
         await counter.down('this-or-that');
