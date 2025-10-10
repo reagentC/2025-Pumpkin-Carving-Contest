@@ -16,21 +16,87 @@
     <div class="image-container">
         <img src="images/trick-or-treat-halloween.gif" alt="Dog dressed as a ghost for Halloween holding a pumpkin-shaped bucket in its mouth, standing in a brightly lit hallway with tiled floor. Text at the bottom reads THIS WILL BE ROCKOS COSTUME. The scene is playful and festive." />
     </div>
+    <div class="would-you-rather">
+      <span class="label">Would you rather be trapped with spiders... or snakes?</span>
+    </div>
+    <div class="this-or-that">
+      <button id="spiderBtn" class="vote-btn">🕷️ Spiders</button>
+      <button id="snakeBtn" class="vote-btn">🐍 Snakes</button>
+    </div>
+    <div class="vote-results" id="vote-results">Loading votes...</div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const counter = new Counter({ workspace: 'cos' });
 
-    // Increment the view count when the page loads
+    const spiderBtn = document.getElementById('spiderBtn');
+    const snakeBtn = document.getElementById('snakeBtn');
+    const voteResultsEl = document.getElementById('vote-results');
+    const viewCountEl = document.getElementById('view-count');
+
+    let upCount = 0;
+    let downCount = 0;
+
+    // Track page view count
     counter.up('2025-cos-pumpkin-carving-contest')
       .then(result => {
-        console.log(result);
-        document.getElementById('view-count').textContent = result.data.up_count;
+        viewCountEl.textContent = result.data.up_count;
       })
       .catch(error => {
-        console.error('Error tracking page view:', error);
-        document.getElementById('view-count').textContent = 'Error loading count';
+        console.error('[View Counter] Error incrementing page view:', error);
+        viewCountEl.textContent = 'Error loading count';
       });
+
+    // Helper function to render vote text
+    function renderVotes() {
+      voteResultsEl.textContent = `🕷️ Spiders: ${upCount} | 🐍 Snakes: ${downCount}`;
+    }
+
+    // Get initial votes from API
+    async function updateVotes() {
+      try {
+        const res = await counter.get('this-or-that');
+        upCount = res.data?.up_count ?? 0;
+        downCount = res.data?.down_count ?? 0;
+        renderVotes();
+      } catch (error) {
+        console.error('[Vote Fetch] Error fetching vote data:', error);
+        voteResultsEl.textContent = 'Error loading votes';
+      }
+    }
+
+    updateVotes();
+
+    // Handle "Spiders" button click
+    spiderBtn.addEventListener('click', async () => {
+      upCount++;
+      renderVotes(); // immediate feedback
+
+      try {
+        await counter.up('this-or-that');
+        setTimeout(updateVotes, 1500); // sync after API updates
+      } catch (error) {
+        console.error('[Spiders Button] Error sending UP vote to CounterAPI:', error);
+        upCount--; // revert local change
+        renderVotes();
+      }
+    });
+
+    // Handle "Snakes" button click
+    snakeBtn.addEventListener('click', async () => {
+      downCount++;
+      renderVotes(); // immediate feedback
+
+      try {
+        await counter.down('this-or-that');
+        setTimeout(updateVotes, 1500);
+      } catch (error) {
+        console.error('[Snakes Button] Error sending DOWN vote to CounterAPI:', error);
+        downCount--; // revert local change
+        renderVotes();
+      }
+    });
   });
 </script>
+
 </body>
 </html>
