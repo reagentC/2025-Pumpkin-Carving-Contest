@@ -1,6 +1,5 @@
 html, body {
-  height: 100vh;
-  overflow: hidden;
+  height: 100%;
   margin: 0;
   padding: 0;
   background: linear-gradient(180deg, #ff7a00 0%, #ffb347 100%);
